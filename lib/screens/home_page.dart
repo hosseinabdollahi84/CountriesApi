@@ -1,3 +1,4 @@
+import 'package:arz3/controllers/DropdownButton%20.dart';
 import 'package:arz3/controllers/ThemeController.dart';
 import 'package:arz3/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
 class HomePage extends StatelessWidget {
-  final List<String> cont = ["Africa", "Asia", "Europe", "America", "Oceania"];
+  final Dropdownbutton continentController = Get.put(Dropdownbutton());
 
   final ThemeController themeController = Get.put(ThemeController());
   HomePage({super.key});
@@ -17,6 +18,7 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Align(
               alignment: Alignment.center,
@@ -45,6 +47,42 @@ class HomePage extends StatelessWidget {
                       ),
                       prefixIcon: Icon(Icons.search),
                     ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 200,
+
+              child: Card(
+                elevation: 6,
+                child: Obx(
+                  () => DropdownButtonFormField<String>(
+                    value: continentController.defalt.value,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 16,
+                      ),
+                    ),
+                    onChanged:
+                        (newValue) =>
+                            continentController.defalt.value = newValue!,
+                    items:
+                        continentController.cont.map((continent) {
+                          return DropdownMenuItem<String>(
+                            value: continent,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 1),
+                              child: Text(continent),
+                            ),
+                          );
+                        }).toList(),
                   ),
                 ),
               ),
