@@ -1,10 +1,12 @@
 import 'package:arz3/controllers/DropdownButton%20.dart';
 import 'package:arz3/controllers/ThemeController.dart';
 import 'package:arz3/controllers/services_api.dart';
+import 'package:arz3/screens/itempage.dart';
 import 'package:arz3/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   /////////////////////////////////////////////////////////////////
@@ -95,7 +97,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
@@ -113,58 +115,73 @@ class HomePage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final country = controller.countries[index];
 
-                      return Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(12),
-                              ),
-                              child: Image.network(
-                                country.flags.png,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      country.name.common,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                      'Capital: ${country.capital}',
-                                      style: TextStyle(color: Colors.grey[700]),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      'Capital: ${country.population}',
-                                      style: TextStyle(color: Colors.grey[700]),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(height: 8),
-                                  ],
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(Itempage());
+                        },
+                        child: Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(12),
+                                ),
+                                child: Image.network(
+                                  country.flags.png,
+                                  width: double.infinity,
+                                  height: 200,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        country.name.common,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 3),
+                                      Text(
+                                        'Population: ${NumberFormat('#,###').format(country.population)}', //باسه اعشاره و باید پکیج اضافه کنیم که تو پاپ اسپکت هستش
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        country.region.toString(),
+
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Capital: ${country.capital.isNotEmpty ? country.capital[0] : CircularProgressIndicator()}', // برای ایندکس هست که بدون براکت نمایش بده نکته
+                                        //برنامه کرش میکرد برای همین اضافه کردم بهش isNotEmpty یاد اودری
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 8),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
