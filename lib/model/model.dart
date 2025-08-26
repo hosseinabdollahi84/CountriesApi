@@ -7,6 +7,7 @@ String welcomeToJson(List<Welcome> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Welcome {
+  Flags flags;
   Name name;
   List<String> tld;
   Map<String, Currency> currencies;
@@ -18,6 +19,7 @@ class Welcome {
   int population;
 
   Welcome({
+    required this.flags,
     required this.name,
     required this.tld,
     required this.currencies,
@@ -30,6 +32,7 @@ class Welcome {
   });
 
   factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+    flags: Flags.fromJson(json["flags"]),
     name: Name.fromJson(json["name"]),
     tld: List<String>.from(json["tld"].map((x) => x)),
     currencies: Map.from(
@@ -46,6 +49,7 @@ class Welcome {
   );
 
   Map<String, dynamic> toJson() => {
+    "flags": flags.toJson(),
     "name": name.toJson(),
     "tld": List<dynamic>.from(tld.map((x) => x)),
     "currencies": Map.from(
@@ -72,6 +76,19 @@ class Currency {
       Currency(name: json["name"], symbol: json["symbol"]);
 
   Map<String, dynamic> toJson() => {"name": name, "symbol": symbol};
+}
+
+class Flags {
+  String png;
+  String svg;
+  String alt;
+
+  Flags({required this.png, required this.svg, required this.alt});
+
+  factory Flags.fromJson(Map<String, dynamic> json) =>
+      Flags(png: json["png"], svg: json["svg"], alt: json["alt"]);
+
+  Map<String, dynamic> toJson() => {"png": png, "svg": svg, "alt": alt};
 }
 
 class Name {
