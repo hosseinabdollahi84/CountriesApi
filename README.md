@@ -16,7 +16,7 @@ Built with **GetX** for state management, **http** for API calls, and smooth **H
 ---
 
 ## 📱 Screenshots
-| Country List | Country Details |
+| Screenshots  | Screenshots  |
 |--------------|-----------------|
 | ![List](assets/intro.gif) | ![Detail](assets/intro.jpg) |
 
