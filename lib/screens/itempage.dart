@@ -113,30 +113,33 @@ class Itempage extends StatelessWidget {
                             fontSize: 20,
                           ),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children:
-                              country.borders.map<Widget>((borderCode) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 6.0),
-                                  child: Card(
-                                    elevation: 4,
-                                    margin: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(
-                                        borderCode,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:
+                                country.borders.map<Widget>((borderCode) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 6.0),
+                                    child: Card(
+                                      elevation: 4,
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Text(
+                                          borderCode,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }).toList(),
+                                  );
+                                }).toList(),
+                          ),
                         ),
                       ],
                     ),
