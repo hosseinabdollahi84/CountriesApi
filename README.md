@@ -18,7 +18,7 @@ Built with **GetX** for state management, **http** for API calls, and smooth **H
 ## 📱 Screenshots
 | Screenshots  | Screenshots  |
 |--------------|-----------------|
-| ![List](assets/intro.gif) | ![Detail](assets/intro.jpg) |
+| <img src="assets/intro.gif" width="150"> | <img src="assets/intro.jpg" width="150"> |
 
 ---
 
