@@ -1,5 +1,4 @@
-import 'package:arz3/controllers/DropdownButton%20.dart';
-import 'package:arz3/controllers/Serch.dart';
+import 'package:arz3/controllers/filtercontoroler.dart';
 import 'package:arz3/controllers/ThemeController.dart';
 import 'package:arz3/controllers/services_api.dart';
 import 'package:arz3/screens/itempage.dart';
@@ -11,10 +10,10 @@ import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   /////////////////////////////////////////////////////////////////
-  final Dropdownbutton continentController = Get.put(Dropdownbutton());
   final ThemeController themeController = Get.put(ThemeController());
   final CountryController controller = Get.put(CountryController());
   final Serchcontoroler serchcontoroler = Get.put(Serchcontoroler());
+
   /////////////////////////////////////////////////////////////////////
   HomePage({super.key});
 
@@ -45,7 +44,7 @@ class HomePage extends StatelessWidget {
                   elevation: 6,
                   borderRadius: BorderRadius.circular(12),
                   child: TextField(
-                    onChanged: serchcontoroler.filterCountries,
+                    onChanged: (value) => serchcontoroler.setSearch(value),
                     decoration: InputDecoration(
                       hintText: "Search for a country...",
 
@@ -68,33 +67,24 @@ class HomePage extends StatelessWidget {
                 child: Material(
                   elevation: 6,
                   child: Obx(
-                    () => DropdownButtonFormField<String>(
-                      value: continentController.defalt.value,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          // borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 16,
-                        ),
-                      ),
-                      onChanged:
-                          (newValue) =>
-                              continentController.defalt.value = newValue!,
+                    () => DropdownButton<String>(
+                      value: serchcontoroler.selectedContinent.value,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          serchcontoroler.setContinent(newValue);
+                        }
+                      },
                       items:
-                          continentController.cont.map((continent) {
-                            return DropdownMenuItem<String>(
-                              value: continent,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 1,
-                                ),
-                                child: Text(continent),
-                              ),
-                            );
-                          }).toList(),
+                          serchcontoroler.continents
+                              .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value == "All" ? "همه قاره‌ها" : value,
+                                  ),
+                                );
+                              })
+                              .toList(),
                     ),
                   ),
                 ),
@@ -124,7 +114,6 @@ class HomePage extends StatelessWidget {
                               'flag${country.name.common}$index'; // تگ یکتا
                           Get.to(
                             () => Itempage(country: country, heroTag: heroTag),
-                            transition: Transition.fade,
                           );
                         },
                         child: Card(
