@@ -5,7 +5,7 @@ import 'package:arz3/screens/itempage.dart';
 import 'package:arz3/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
+
 import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
   final ThemeController themeController = Get.put(ThemeController());
   final CountryController controller = Get.put(CountryController());
   final Serchcontoroler serchcontoroler = Get.put(Serchcontoroler());
-
   /////////////////////////////////////////////////////////////////////
   HomePage({super.key});
 
@@ -58,7 +57,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             SizedBox(
               width: 200,
 
@@ -67,7 +66,7 @@ class HomePage extends StatelessWidget {
                 child: Material(
                   elevation: 6,
                   child: Obx(
-                    () => DropdownButton<String>(
+                    () => DropdownButtonFormField<String>(
                       value: serchcontoroler.selectedContinent.value,
                       onChanged: (String? newValue) {
                         if (newValue != null) {
@@ -81,10 +80,27 @@ class HomePage extends StatelessWidget {
                                   value: value,
                                   child: Text(
                                     value == "All" ? "همه قاره‌ها" : value,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 );
                               })
                               .toList(),
+                      decoration: InputDecoration(
+                        labelText: "انتخاب قاره",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                      ),
+                      isExpanded: true,
+                      icon: Icon(Icons.public, color: Colors.blueAccent),
+                      dropdownColor: Colors.white,
                     ),
                   ),
                 ),
