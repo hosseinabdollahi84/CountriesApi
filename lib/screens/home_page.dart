@@ -1,4 +1,5 @@
 import 'package:arz3/controllers/DropdownButton%20.dart';
+import 'package:arz3/controllers/Serch.dart';
 import 'package:arz3/controllers/ThemeController.dart';
 import 'package:arz3/controllers/services_api.dart';
 import 'package:arz3/screens/itempage.dart';
@@ -13,6 +14,7 @@ class HomePage extends StatelessWidget {
   final Dropdownbutton continentController = Get.put(Dropdownbutton());
   final ThemeController themeController = Get.put(ThemeController());
   final CountryController controller = Get.put(CountryController());
+  final Serchcontoroler serchcontoroler = Get.put(Serchcontoroler());
   /////////////////////////////////////////////////////////////////////
   HomePage({super.key});
 
@@ -43,6 +45,7 @@ class HomePage extends StatelessWidget {
                   elevation: 6,
                   borderRadius: BorderRadius.circular(12),
                   child: TextField(
+                    onChanged: serchcontoroler.filterCountries,
                     decoration: InputDecoration(
                       hintText: "Search for a country...",
 
@@ -111,13 +114,18 @@ class HomePage extends StatelessWidget {
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 13,
                     ),
-                    itemCount: controller.countries.length,
+                    itemCount: serchcontoroler.filteredCountries.length,
                     itemBuilder: (context, index) {
-                      final country = controller.countries[index];
+                      final country = serchcontoroler.filteredCountries[index];
 
                       return GestureDetector(
                         onTap: () {
-                          Get.to(Itempage());
+                          final heroTag =
+                              'flag${country.name.common}$index'; // تگ یکتا
+                          Get.to(
+                            () => Itempage(country: country, heroTag: heroTag),
+                            transition: Transition.fade,
+                          );
                         },
                         child: Card(
                           elevation: 5,
@@ -127,18 +135,21 @@ class HomePage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(12),
-                                ),
-                                child: Image.network(
-                                  country.flags.png,
-                                  width: double.infinity,
-                                  height: 200,
-                                  fit: BoxFit.cover,
+                              Hero(
+                                tag: 'flag${country.name.common}$index',
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(12),
+                                  ),
+                                  child: Image.network(
+                                    country.flags.png,
+                                    width: double.infinity,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Align(
@@ -149,33 +160,26 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Text(
                                         country.name.common,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
-                                      SizedBox(height: 3),
+                                      const SizedBox(height: 3),
                                       Text(
-                                        'Population: ${NumberFormat('#,###').format(country.population)}', //باسه اعشاره و باید پکیج اضافه کنیم که تو پاپ اسپکت هستش
-                                        style: TextStyle(
+                                        'Population: ${NumberFormat('#,###').format(country.population)}',
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        country.region.toString(),
+                                      const SizedBox(height: 8),
+                                      Text(country.region.toString()),
+                                      const SizedBox(height: 8),
 
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      SizedBox(height: 8),
                                       Text(
-                                        'Capital: ${country.capital.isNotEmpty ? country.capital[0] : CircularProgressIndicator()}', // برای ایندکس هست که بدون براکت نمایش بده نکته
-                                        //برنامه کرش میکرد برای همین اضافه کردم بهش isNotEmpty یاد اودری
-                                        textAlign: TextAlign.center,
+                                        'Capital: ${country.capital.isNotEmpty ? country.capital : Text("__")} ',
                                       ),
-                                      SizedBox(height: 8),
+                                      const SizedBox(height: 8),
                                     ],
                                   ),
                                 ),
