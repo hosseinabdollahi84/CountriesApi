@@ -100,7 +100,6 @@ class HomePage extends StatelessWidget {
                       ),
                       isExpanded: true,
                       icon: Icon(Icons.public, color: Colors.blueAccent),
-                      dropdownColor: Colors.white,
                     ),
                   ),
                 ),
@@ -113,6 +112,7 @@ class HomePage extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   return GridView.builder(
+                    shrinkWrap: true,
                     padding: EdgeInsets.all(40),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,

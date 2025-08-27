@@ -1,8 +1,6 @@
 import 'package:arz3/controllers/ThemeController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -11,7 +9,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-
       toolbarHeight: 70,
       elevation: 5,
       title: const Text(
@@ -19,27 +16,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
       actions: [
-        GetBuilder<ThemeController>(
-          builder:
-              (controller) => TextButton.icon(
-                onPressed: () {
-                  controller.toggleTheme();
-                },
-                label: Text(
-                  Get.isDarkMode ? "Light Mode" : "Dark Mode",
-                  style: TextStyle(
-                    color:
-                        Get.isDarkMode
-                            ? const Color.fromARGB(255, 51, 50, 50)
-                            : const Color.fromARGB(255, 202, 195, 195),
-                  ),
-                ),
-                icon: Icon(
-                  Get.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                  color: Get.isDarkMode ? Colors.black : Colors.white,
-                ),
+        Obx(() {
+          final themeController = Get.find<ThemeController>();
+          final isDark = themeController.themeMode.value == ThemeMode.dark;
+
+          return TextButton.icon(
+            onPressed: () => themeController.toggleTheme(),
+            label: Text(
+              isDark ? "Light Mode" : "Dark Mode",
+              style: TextStyle(
+                color:
+                    isDark
+                        ? const Color.fromARGB(255, 201, 193, 193)
+                        : const Color.fromARGB(255, 37, 34, 34),
               ),
-        ),
+            ),
+            icon: Icon(
+              isDark ? Icons.light_mode : Icons.dark_mode,
+              color:
+                  isDark
+                      ? const Color.fromARGB(255, 247, 241, 241)
+                      : const Color.fromARGB(255, 24, 22, 22),
+            ),
+          );
+        }),
       ],
     );
   }
