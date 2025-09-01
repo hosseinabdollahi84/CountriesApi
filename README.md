@@ -12,7 +12,7 @@ Built with **GetX** for state management, **http** for API calls, and smooth **H
 - **http** package for API integration
 - Smooth page transitions with **Hero Animations**
 - Simple, responsive UI
-- **Future Feature:** Add countries to favorites and save them in a database (e.g., SharePreferences )
+- **Future Feature:** “save them locally (e.g., using SharedPreferences)
 
 ---
 
@@ -31,6 +31,3 @@ Built with **GetX** for state management, **http** for API calls, and smooth **H
 
 ---
 
-## 🔜 Future Plans
-- Implement a **Favorites** feature to mark and save favorite countries
-- Store favorites in a **SharePoint Database** for persistent access
